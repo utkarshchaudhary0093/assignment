@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 400px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h2>User Form</h2>
+
+<form id="userForm">
+    <!-- Name -->
+    <label>
+        Name:
+        <input type="text" id="name" required>
+    </label>
+
+    <!-- Age -->
+    <label>
+        Age:
+        <input type="number" id="age" required>
+    </label>
+
+    <!-- Gender -->
+    <label>Gender:</label>
+    <label><input type="radio" name="gender" value="Male" required> Male</label>
+    <label><input type="radio" name="gender" value="Female"> Female</label>
+    <label><input type="radio" name="gender" value="Other"> Other</label>
+
+    <!-- Country -->
+    <label>
+        Country:
+        <select id="country" required>
+            <option value="">Select</option>
+            <option>India</option>
+            <option>USA</option>
+            <option>Japan</option>
+            <option>China</option>
+        </select>
+    </label>
+
+    <!-- Technological Stack -->
+    <label>Technological Stack:</label>
+    <label><input type="checkbox" value="HTML"> HTML</label>
+    <label><input type="checkbox" value="CSS"> CSS</label>
+    <label><input type="checkbox" value="JS"> JS</label>
+    <label><input type="checkbox" value="React"> React</label>
+    <label><input type="checkbox" value="React Native"> React Native</label>
+
+    <!-- Address -->
+    <label>
+        Address:
+        <textarea id="address" rows="3" required></textarea>
+    </label>
+
+    <!-- Telephone -->
+    <label>
+        Telephone:
+        <input type="tel" id="phone" pattern="[0-9]{10}" required>
+    </label>
+
+    <!-- Email -->
+    <label>
+        Email:
+        <input type="email" id="email" required>
+    </label>
+
+    <br><br>
+
+    <!-- Buttons -->
+    <button type="reset">Reset</button>
+    <button type="button" onclick="submitForm()">Submit</button>
+</form>
+
+<!-- Table Output -->
+<div id="output"></div>
+
+<script>
+function submitForm() {
+    const name = document.getElementById("name").value.trim();
+    const age = document.getElementById("age").value;
+    const country = document.getElementById("country").value;
+    const address = document.getElementById("address").value.trim();
+    const phone = document.getElementById("phone").value;
+    const email = document.getElementById("email").value;
+
+    const genderInput = document.querySelector('input[name="gender"]:checked');
+    const stackInputs = document.querySelectorAll('input[type="checkbox"]:checked');
+
+    // Validation: all fields filled
+    if (!name || !age || !genderInput || !country || !address || !phone || !email || stackInputs.length === 0) {
+        alert("Please fill all fields correctly");
+        return;
+    }
+
+    // Get selected stack values
+    let stack = [];
+    stackInputs.forEach(item => stack.push(item.value));
+
+    // Create table
+    document.getElementById("output").innerHTML = `
+        <table>
+            <tr><th>Name</th><td>${name}</td></tr>
+            <tr><th>Age</th><td>${age}</td></tr>
+            <tr><th>Gender</th><td>${genderInput.value}</td></tr>
+            <tr><th>Country</th><td>${country}</td></tr>
+            <tr><th>Tech Stack</th><td>${stack.join(", ")}</td></tr>
+            <tr><th>Address</th><td>${address}</td></tr>
+            <tr><th>Telephone</th><td>${phone}</td></tr>
+            <tr><th>Email</th><td>${email}</td></tr>
+        </table>
+    `;
+}
+</script>
+
+</body>
+</html>
